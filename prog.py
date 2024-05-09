@@ -22,8 +22,11 @@ def scrape_scholar_articles(query, num_pages):
             authorship_string = result.find("div", class_="gs_a").text
             authors = authorship_string[0:authorship_string.find("-")].strip()
             publication_string = authorship_string[authorship_string.find("-")+1:-1]
+            excerpt = result.find("div",class_="gs_rs").text
             link = result.find("a")["href"]
-            articles.append({"Query Date": query_date,"Title": title, "Authors": authors, "PublicationString": publication_string, "Link": link})
+            articles.append({"Query Date": query_date,"Title": title, "Authors": authors, 
+                             "PublicationString": publication_string, "Excerpt": excerpt,
+                             "Link": link})
 
         page += 1
 
@@ -55,7 +58,7 @@ def scrape_articles():
         filename = filename_string
 
     save_to_excel(articles, filename)
-    label_status.config(text="Extraction complete. Data saved to" + filename_string)
+    label_status.config(text="Extraction complete. Data saved to:\n" + filename_string)
 
 # Create the main window
 window = tk.Tk()
