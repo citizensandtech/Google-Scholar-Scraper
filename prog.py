@@ -19,9 +19,11 @@ def scrape_scholar_articles(query, num_pages):
 
         for result in results:
             title = result.find("h3", class_="gs_rt").text
-            authors = result.find("div", class_="gs_a").text
+            authorship_string = result.find("div", class_="gs_a").text
+            authors = authorship_string[0:authorship_string.find("-")].strip()
+            publication_string = authorship_string[authorship_string.find("-")+1:-1]
             link = result.find("a")["href"]
-            articles.append({"Query Date": query_date,"Title": title, "Authors": authors, "Link": link})
+            articles.append({"Query Date": query_date,"Title": title, "Authors": authors, "PublicationString": publication_string, "Link": link})
 
         page += 1
 
